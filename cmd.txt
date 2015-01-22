@@ -1,0 +1,8 @@
+/Applications/Mathematica Home Edition.app/Contents/MacOS/MathKernel
+-runfirst
+$TopDirectory="/Applications/Mathematica Home Edition.app"
+-script
+teste.m
+--
+teste.m
+1
