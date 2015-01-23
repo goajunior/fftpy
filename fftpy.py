@@ -3,23 +3,44 @@
 import argparse
 import numpy
 import scipy
-import matplotlib
+import scipy.fftpack
+import matplotlib.pyplot as plt
 import subprocess
+
+def fftscipy(np, data):
+
+    FFT = abs(scipy.fft(data[:,1]))
+    freqs = scipy.fftpack.fftfreq(np, data[1,0] - data[0,0])
+
+    plt.subplot(2, 1, 1)
+    plt.plot(data[:,0], data[:,1], 'yo-')
+    plt.title('Análise de Fourier')
+    plt.ylabel('Sinal no tempo')
+
+    plt.subplot(2, 1, 2)
+    plt.plot(freqs, FFT, 'x')
+    plt.ylabel('Sinal no dom. da frequência')
+    plt.show()
+
+    return
 
 def main():
 
+#:TODO: 22.01.15 17:33:58, junior
+# opção na linha de comando para usar Mathematicascript ou fornecer os dados
     # parse command-line arguments
     parser = argparse.ArgumentParser(usage=__doc__)
-    parser.add_argument('--order', type=int, default=2, help='number of points')
-    # parser.add_argument('--guess', type=float, default=1.0, help='initial guess')
-    # parser.add_argument('--output', default='plot.png', help='output image file')
+    parser.add_argument('--script', action='store_true')
+    parser.add_argument('--order', type=int,  default=2, help='number of points')
+    parser.add_argument('--data', default='data.txt', help='initial guess')
     args = parser.parse_args()
 
-    np = args.order
 
     # o mathematica usara o script teste e gerara um arquivo com a funcao a ser transformada
     # o arquivo ascii data.txt sera produzido com os pontos (x,y) da funcao descrita em teste.m
-    subprocess.check_output(['MathematicaScript', '-script', 'teste.m', str(np)])
+    if args.script:
+        np = args.order
+        subprocess.check_output(['MathematicaScript', '-script', 'teste.m', str(np)])
 
     # conta a quantidade de samplings do sinal
     fdata   = open('data.txt', 'r')
@@ -41,7 +62,7 @@ def main():
         data[count,1] = float(colunas[1])
         count         = count + 1
 
-    print(data)
+    fftscipy(nlinhas, data)
 
 if __name__ == '__main__':
     main()

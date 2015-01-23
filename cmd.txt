@@ -5,4 +5,4 @@ $TopDirectory="/Applications/Mathematica Home Edition.app"
 teste.m
 --
 teste.m
-1
+10
