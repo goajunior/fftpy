@@ -13,21 +13,21 @@ def fftscipy(np, data):
     freqs = scipy.fftpack.fftfreq(np, data[1,0] - data[0,0])
 
     plt.subplot(2, 1, 1)
-    plt.plot(data[:,0], data[:,1], 'yo-')
+    plt.plot(data[:,0], data[:,1], '-')
     plt.title('Análise de Fourier')
     plt.ylabel('Sinal no tempo')
 
     plt.subplot(2, 1, 2)
-    plt.plot(freqs, FFT, 'x')
+    plt.plot(freqs[0:np/2], (2/np)*FFT[0:np/2], '-')
     plt.ylabel('Sinal no dom. da frequência')
+    plt.grid()
+    plt.savefig('plot.png', dpi=512)
     plt.show()
 
     return
 
 def main():
 
-#:TODO: 22.01.15 17:33:58, junior
-# opção na linha de comando para usar Mathematicascript ou fornecer os dados
     # parse command-line arguments
     parser = argparse.ArgumentParser(usage=__doc__)
     parser.add_argument('--script', action='store_true')
